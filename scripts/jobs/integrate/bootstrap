@@ -100,9 +100,10 @@ mkdir -p $baseDir/resolutionScratch_
 # repo to publish builds
 integrationRepoUrl=${integrationRepoUrl-"https://scala-ci.typesafe.com/artifactory/scala-integration/"}
 
-if [ "${TRAVIS}" != "true" ]; then
+# TODO: can we skip this -- which resolvers need to be added?
+# if [ "${TRAVIS}" != "true" ]; then
   generateRepositoriesConfig $integrationRepoUrl
-fi
+# fi
 
 # ARGH trying to get this to work on multiple versions of sbt-extras...
 # the old version (on jenkins, and I don't want to upgrade for risk of breaking other builds) honors -sbt-dir
@@ -511,18 +512,20 @@ publishSonatype() {
 
 #### MAIN
 
-determineScalaVersion
+if [[ "$TRAVIS_EVENT_TYPE" != "pull_request" ]]; then
+  determineScalaVersion
 
-deriveModuleVersions
+  deriveModuleVersions
 
-removeExistingBuilds $integrationRepoUrl
+  removeExistingBuilds $integrationRepoUrl
 
-bootstrap
+  bootstrap
 
-if [ "$testStability" == "yes" ]
-  then testStability
-fi
+  if [ "$testStability" == "yes" ]
+    then testStability
+  fi
 
-if [ "$publishToSonatype" == "yes" ]
-  then publishSonatype
+  if [ "$publishToSonatype" == "yes" ]
+    then publishSonatype
+  fi
 fi
