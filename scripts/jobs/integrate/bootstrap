@@ -77,7 +77,7 @@ publishSonatypeTaskCore=${publishSonatypeTaskCore-"publishSigned"}
 publishSonatypeTaskModules=${publishSonatypeTaskModules-"publishSigned"}
 
 forceRebuild=${forceRebuild-no}
-sbtBuildTask=${sbtBuildTask-"testAll"} # TESTING leave empty to avoid the sanity check
+# sbtBuildTask=${sbtBuildTask-"testAll"} # TESTING leave empty to avoid the sanity check
 testStability=${testStability-yes}
 
 clean="clean" # TESTING leave empty to speed up testing
